@@ -20,7 +20,7 @@ GWS_ENV = {**os.environ}
 TODAY = datetime.now().strftime("%Y-%m-%d")
 NOW_HM = datetime.now().strftime("%H:%M")
 DOC_TITLE = f"Competitor Report — {TODAY}"
-FOLDER_NAME = "Competitor Reports"
+FOLDER_ID = "16BMxGLn15l_nkRJfHM0rIcncwaCstrWI"
 REPORT_FILE = Path(__file__).parent / f"competitor-report-{TODAY}.md"
 
 
@@ -208,20 +208,8 @@ def build_requests(ops, start_index):
 def step_a():
     print("\n── Step A: Find or create today's Doc ──────────────────────")
 
-    # Find folder
-    folders = drive_list(
-        f"name='{FOLDER_NAME}' and mimeType='application/vnd.google-apps.folder' and trashed=false"
-    )
-    if folders:
-        folder_id = folders[0]["id"]
-        print(f"  ✓ Folder found: {FOLDER_NAME} ({folder_id})")
-    else:
-        print(f"  Creating folder '{FOLDER_NAME}'...")
-        result = gws("drive", "files", "create",
-                     body={"name": FOLDER_NAME,
-                           "mimeType": "application/vnd.google-apps.folder"})
-        folder_id = result["id"]
-        print(f"  ✓ Folder created: {folder_id}")
+    folder_id = FOLDER_ID
+    print(f"  ✓ Using folder: {folder_id}")
 
     # Find today's doc in folder
     docs = drive_list(
